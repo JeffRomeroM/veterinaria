@@ -79,7 +79,7 @@ const exportarVisitas = async () => {
 
   const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' })
   const blob = new Blob([excelBuffer], { type: 'application/octet-stream' })
-  saveAs(blob, `respaldo_visitas_${new Date().toISOString().slice(0, 10)}.xlsx`)
+  saveAs(blob, `visitas_${new Date().toISOString().slice(0, 10)}.xlsx`)
 }
 
 
@@ -152,7 +152,7 @@ h2 {
   margin-bottom: 1rem;
 }
 .btn-exportar {
-  background-color: #1976d2;
+  background-color: #059669 !important;
   color: white;
   padding: 8px 12px;
   margin-bottom: 1rem;

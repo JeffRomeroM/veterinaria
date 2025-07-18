@@ -47,7 +47,7 @@ function contarPorCampo(campo) {
 }
 
 function renderCharts() {
-  const porTipo = contarPorCampo('tipo')
+  const porTipo = contarPorCampo('tipo_visita')
   const porVeterinario = contarPorCampo('veterinario')
 
   new Chart(tipoChart.value, {
