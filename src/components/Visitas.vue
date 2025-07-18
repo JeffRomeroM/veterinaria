@@ -278,7 +278,7 @@ function obtenerUbicacion() {
       }
     },
     (error) => {
-      alert('No se pudo obtener la ubicación: ' + error.message)
+      alert('No se pudo obtener la ubicación, busca mejor señal: ' + error.message)
     },
     {
       enableHighAccuracy: true,

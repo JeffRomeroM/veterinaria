@@ -100,7 +100,7 @@ const goToInicio = () => {
 .register-container {
   max-width: 400px;
   margin: auto;
-  margin-top: 10vh;
+  margin-top: 15vh;
   padding: 2rem 2.5rem;
   border-radius: 12px;
   background: #f9fafb; /* gris claro */
