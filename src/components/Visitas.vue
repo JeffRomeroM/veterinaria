@@ -7,7 +7,10 @@ const cargando = ref(false)
 const error = ref('')
 
 const modalAbierto = ref(false)
-const modoEdicion = ref(false) // indica si está editando o solo viendo
+const modoEdicion = ref(false)
+
+const modalEliminarAbierto = ref(false)
+const idEliminar = ref(null)
 
 const formulario = reactive({
   id: null,
@@ -26,6 +29,29 @@ const formulario = reactive({
   latitud: '',
   longitud: ''
 })
+
+const tiposVisita = [
+  'Diagnóstico',
+  'Seguimiento',
+  'Vacunación',
+  'Desparasitación',
+  'Control sanitario',
+  'Emergencias médicas',
+  'Toma de muestras para análisis',
+  'Cirugías o procedimientos menores',
+  'Asesoría en manejo de ganado',
+  'Reproducción y control de parto',
+  'Asesoría en manejo animal'
+]
+
+const tiposGanado = [
+  'Bovino',
+  'Caprino',
+  'Porcino',
+  'Ovinos',
+  'Aves',
+  'Otros'
+]
 
 const user = ref(null)
 const userRol = ref('')
@@ -160,17 +186,29 @@ const guardarVisita = async () => {
   }
 }
 
-const eliminarVisita = async (id) => {
-  if (!confirm('¿Seguro que deseas eliminar esta visita?')) return
+// abrir modal confirmación eliminación
+const abrirModalEliminar = (id) => {
+  idEliminar.value = id
+  modalEliminarAbierto.value = true
+}
+
+const cancelarEliminar = () => {
+  idEliminar.value = null
+  modalEliminarAbierto.value = false
+}
+
+const confirmarEliminar = async () => {
+  if (!idEliminar.value) return
   const { error: err } = await supabase
     .from('visitas')
     .delete()
-    .eq('id', id)
+    .eq('id', idEliminar.value)
 
   if (err) {
     error.value = err.message
   } else {
-    cerrarModal()
+    modalEliminarAbierto.value = false
+    idEliminar.value = null
     await cargarVisitas()
   }
 }
@@ -231,7 +269,7 @@ onMounted(async () => {
 
     <p v-else>No hay visitas registradas</p>
 
-    <!-- Modal -->
+    <!-- Modal de formulario -->
     <div v-if="modalAbierto" class="modal-overlay" @click.self="cerrarModal">
       <div class="modal-content">
         <h3>{{ modoEdicion ? (formulario.id ? 'Editar Visita' : 'Nueva Visita') : 'Detalles de Visita' }}</h3>
@@ -253,14 +291,33 @@ onMounted(async () => {
             Fecha:
             <input type="date" v-model="formulario.fecha" required />
           </label>
-          <label>
-            Tipo Visita:
-            <input v-model="formulario.tipo_visita" required />
-          </label>
-          <label>
-            Tipo de Ganado:
-            <input v-model="formulario.ganado_tipo" />
-          </label>
+
+          <label>Tipo Visita:</label>
+          <div class="tipos-visita">
+            <button
+              v-for="tipo in tiposVisita"
+              :key="tipo"
+              :class="['boton-visita', { activo: formulario.tipo_visita === tipo }]"
+              @click.prevent="formulario.tipo_visita = tipo"
+              type="button"
+            >
+              {{ tipo }}
+            </button>
+          </div>
+
+          <label>Tipo de Ganado:</label>
+          <div class="tipos-visita">
+            <button
+              v-for="tipo in tiposGanado"
+              :key="tipo"
+              :class="['boton-visita', { activo: formulario.ganado_tipo === tipo }]"
+              @click.prevent="formulario.ganado_tipo = tipo"
+              type="button"
+            >
+              {{ tipo }}
+            </button>
+          </div>
+
           <label>
             Cantidad Animales:
             <input type="number" v-model.number="formulario.cantidad_animales" min="0" />
@@ -295,13 +352,13 @@ onMounted(async () => {
           </label>
 
           <div class="modal-buttons">
-            <button type="submit">{{ formulario.id ? 'Guardar Cambios' : 'Crear Visita' }}</button>
-            <button type="button" @click="cerrarModal">Cancelar</button>
+            <button type="submit" class="btn-guardar">{{ formulario.id ? 'Guardar Cambios' : 'Crear Visita' }}</button>
+            <button type="button" @click="cerrarModal" class="btn-cancelar">Cancelar</button>
           </div>
         </form>
 
         <div v-else>
-          <p><strong>Veterinario:</strong> {{ formulario.veterinario_id?.nombre || 'Desconocido' }}</p>     
+          <p><strong>Veterinario:</strong> {{ formulario.veterinario_id?.nombre || 'Desconocido' }}</p>
           <p><strong>Ganadero:</strong> {{ formulario.ganadero }}</p>
           <p><strong>Finca:</strong> {{ formulario.finca }}</p>
           <p><strong>Comunidad:</strong> {{ formulario.comunidad }}</p>
@@ -319,9 +376,21 @@ onMounted(async () => {
 
           <div class="modal-buttons">
             <button @click="activarEdicion" class="btn-editar">Editar</button>
-            <button @click="eliminarVisita(formulario.id)" class="btn-eliminar">Eliminar</button>
+            <button @click="abrirModalEliminar(formulario.id)" class="btn-eliminar">Eliminar</button>
             <button @click="cerrarModal" class="btn-cerrar">Cerrar</button>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Confirmar Eliminación -->
+    <div v-if="modalEliminarAbierto" class="modal-overlay" @click.self="cancelarEliminar">
+      <div class="modal-content">
+        <h3>Confirmar Eliminación</h3>
+        <p>¿Seguro que deseas eliminar esta visita?</p>
+        <div class="modal-buttons">
+          <button @click="confirmarEliminar" class="btn-eliminar">Eliminar</button>
+          <button @click="cancelarEliminar" class="btn-cancelar">Cancelar</button>
         </div>
       </div>
     </div>
@@ -445,6 +514,28 @@ onMounted(async () => {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+.tipos-visita {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.boton-visita {
+  padding: 2px;
+  border: 2px solid #4CAF50;
+  border-radius: 8px;
+  background-color: white;
+  color: #4CAF50;
+  cursor: pointer;
+  transition: 0.2s ease;
+  user-select: none;
+}
+
+.boton-visita.activo {
+  background-color: #4CAF50;
+  color: white;
+}
 
 .modal-buttons {
   display: flex;
@@ -453,6 +544,36 @@ onMounted(async () => {
   margin-top: 15px;
 }
 
+/* Botones formulario */
+.btn-guardar {
+  background-color: #10b981;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  font-weight: 700;
+  transition: background-color 0.2s ease;
+}
+.btn-guardar:hover {
+  background-color: #0f9f75;
+}
+
+.btn-cancelar {
+  background-color: #777;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  font-weight: 700;
+  transition: background-color 0.2s ease;
+}
+.btn-cancelar:hover {
+  background-color: #555;
+}
+
+/* Botones detalles */
 .btn-editar {
   background-color: #2196f3;
   color: white;
@@ -506,7 +627,6 @@ onMounted(async () => {
 @media (max-width: 360px) {
   .cards-container {
     grid-template-columns: repeat(2, 1fr);
-
   }
 }
 </style>

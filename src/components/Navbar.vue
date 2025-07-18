@@ -5,7 +5,7 @@ import { supabase } from '../supabase'
 
 const router = useRouter()
 const usuario = ref(null)
-const veterinariaNombre = ref('Veterinaria')
+const veterinariaNombre = ref('Vet. El Almendro')
 const menuAbierto = ref(false)
 const mostrarModal = ref(false)
 
@@ -60,7 +60,7 @@ onMounted(() => {
       <div class="logo">{{ veterinariaNombre }}</div>
 
       <div class="nav-links" :class="{ open: menuAbierto }">
-        <router-link to="/inicio" class="nav-item">Inicio</router-link>
+        <router-link to="/visitas" class="nav-item">Visitas</router-link>
         <router-link v-if="usuario?.rol === 'admin'" to="/dashboard" class="nav-item">Dashboard</router-link>
         <router-link v-if="usuario?.rol === 'admin'" to="/admin" class="nav-item">Admin</router-link>
         <div class="usuario-nombre" v-if="usuario">{{ usuario.nombre }} ({{ usuario.rol }})</div>

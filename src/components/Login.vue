@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <h1>Veterinaria</h1>
+    <h1>Veterinaria El Almendro</h1>
     <h2>Iniciar Sesión</h2>
     <form @submit.prevent="login" class="form">
       <label>
