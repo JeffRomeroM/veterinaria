@@ -55,7 +55,7 @@ const tiposGanado = [
   'Bovino',
   'Canino',
   'Felino',
-  'Bovino',
+  'Equinos',
   'Caprino',
   'Porcino',
   'Ovinos',
