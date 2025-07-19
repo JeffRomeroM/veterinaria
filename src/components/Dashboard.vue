@@ -83,23 +83,34 @@ function renderCharts() {
 
 <style scoped>
 .dashboard {
+  width: 95%;
+  margin: 0 auto;
   padding: 20px;
 }
 .charts {
   display: flex;
-  flex-direction: column;
-  gap: 40px;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  width: 100%;
+  margin: 0 auto;
 }
+
 canvas {
+  width: 100% !important;
   max-width: 100%;
+  min-height: 260px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px #eee;
 }
+
 @media (min-width: 768px) {
-  .charts {
-    flex-direction: row;
-    justify-content: space-between;
-  }
   canvas {
-    width: 48%;
+    width: 80% !important;
+    max-width: 80%;
   }
 }
+
+
 </style>

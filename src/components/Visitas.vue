@@ -102,10 +102,10 @@ const cargarVisitas = async () => {
   }
 
   let query = supabase
-    .from('visitas')
-    .select('*, veterinario_id (nombre)')
-    .order('fecha', { ascending: false })
-
+  .from('visitas')
+  .select('*, veterinario_id (id, nombre)')
+  .order('fecha', { ascending: false })
+  
   if (userRol.value !== 'admin') {
     query = query.eq('veterinario_id', user.value.id)
   }
@@ -118,15 +118,24 @@ const cargarVisitas = async () => {
   cargando.value = false
 }
 
+// const visitasFiltradas = computed(() => {
+//   return visitas.value.filter(v => {
+//     const nombreMatch = v.ganadero.toLowerCase().includes(filtroNombre.value.toLowerCase())
+//     const fechaMatch = filtroFecha.value ? v.fecha === filtroFecha.value : true
+//     const vetMatch = filtroVeterinario.value ? v.veterinario_id?.id === filtroVeterinario.value : true
+//     return nombreMatch && fechaMatch && vetMatch
+//   })
+// })
 const visitasFiltradas = computed(() => {
   return visitas.value.filter(v => {
     const nombreMatch = v.ganadero.toLowerCase().includes(filtroNombre.value.toLowerCase())
     const fechaMatch = filtroFecha.value ? v.fecha === filtroFecha.value : true
-    const vetMatch = filtroVeterinario.value ? v.veterinario_id?.id === filtroVeterinario.value : true
+    const vetMatch = filtroVeterinario.value
+      ? String(v.veterinario_id?.id) === String(filtroVeterinario.value)
+      : true
     return nombreMatch && fechaMatch && vetMatch
   })
 })
-
 const abrirModal = async (visita = null) => {
   if (visita) {
     modoEdicion.value = false

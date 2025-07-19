@@ -179,7 +179,7 @@ button:disabled {
 /* Responsive para móviles */
 @media (max-width: 480px) {
   .login-container {
-    margin: 3rem 1rem;
+    margin: 3.5rem 1rem;
     padding: 1.5rem 1.5rem;
   }
 
