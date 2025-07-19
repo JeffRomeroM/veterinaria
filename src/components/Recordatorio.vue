@@ -25,19 +25,21 @@ import Navbar from './Navbar.vue'
 
 const recordatorios = ref([])
 
-const cargarVeterinarios = async () => {
-  const { data, error: err } = await supabase
-    .from('usuarios')
-    .select('id, nombre')
-    .eq('rol', 'veterinario')
 
-  if (!err) veterinarios.value = data
-}
 
+// function diasRestantes(fecha) {
+//   const hoy = new Date()
+//   const visita = new Date(fecha)
+//   const diff = Math.ceil((visita - hoy) / (1000 * 60 * 60 * 24))
+//   return diff
+// }
 function diasRestantes(fecha) {
   const hoy = new Date()
   const visita = new Date(fecha)
-  const diff = Math.ceil((visita - hoy) / (1000 * 60 * 60 * 24))
+  // Ignorar horas, minutos y segundos
+  hoy.setHours(0, 0, 0, 0)
+  visita.setHours(0, 0, 0, 0)
+  const diff = Math.round((visita - hoy) / (1000 * 60 * 60 * 24))
   return diff
 }
 

@@ -391,7 +391,7 @@ onMounted(async () => {
         <div class="inicial">{{ obtenerInicial(v.ganadero) }}</div>
         <h3>{{ v.ganadero }}</h3>
         <p><strong>Comunidad:</strong> {{ v.comunidad }}</p>
-        <p><strong>Fecha:</strong> {{ formatDate(v.fecha) }}</p>
+        <p> {{ formatDate(v.fecha) }}</p>
       </div>
     </div>
 
