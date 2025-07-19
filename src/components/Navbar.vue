@@ -62,6 +62,7 @@ onMounted(() => {
       <div class="nav-links" :class="{ open: menuAbierto }">
         <router-link to="/visitas" class="nav-item">Visitas</router-link>
         <router-link v-if="usuario?.rol === 'admin'" to="/dashboard" class="nav-item">Dashboard</router-link>
+        <router-link v-if="usuario?.rol === 'admin'" to="/recordatorios" class="nav-item">Recordatorios</router-link>
         <router-link v-if="usuario?.rol === 'admin'" to="/admin" class="nav-item">Admin</router-link>
         <div class="usuario-nombre" v-if="usuario">{{ usuario.nombre }} ({{ usuario.rol }})</div>
         <button @click="abrirModal" class="btn-logout">Salir</button>

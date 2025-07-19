@@ -5,6 +5,7 @@ import Home from '../components/Home.vue'
 import Admin from '../components/Admin.vue'
 import Register from '../components/Register.vue'
 import Dashboard from '../components/Dashboard.vue'
+import Recordatorio from '../components/Recordatorio.vue'
 
 const routes = [
   { path: '/', component: Login },
@@ -17,6 +18,11 @@ const routes = [
   {
     path: '/admin',
     component: Admin,
+    meta: { requiresAuth: true, requiresAdmin: true }
+  },
+  {
+    path: '/recordatorios',
+    component: Recordatorio,
     meta: { requiresAuth: true, requiresAdmin: true }
   },
   {

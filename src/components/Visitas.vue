@@ -92,6 +92,7 @@ const cargarVeterinarios = async () => {
     .select('id, nombre')
     .eq('rol', 'veterinario')
 
+
   if (!err) veterinarios.value = data
 }
 
@@ -408,11 +409,11 @@ onMounted(async () => {
           </label>
           <label>
             Teléfono:
-            <input v-model="formulario.telefono" required />
+            <input v-model="formulario.telefono"  />
           </label>
           <label>
             Finca:
-            <input v-model="formulario.finca" required />
+            <input v-model="formulario.finca"  />
           </label>
           <label>
             Comunidad:
