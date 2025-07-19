@@ -2,9 +2,11 @@
   <Navbar />   
   <div class="dashboard">
     <h2>Estadísticas de Visitas</h2>
-
+    
     <div class="charts">
+      <p>Visitas por tipo</p>
       <canvas ref="tipoChart"></canvas>
+      <p>Visitas por veterinario</p>
       <canvas ref="veterinarioChart"></canvas>
     </div>
   </div>
@@ -82,35 +84,40 @@ function renderCharts() {
 </script>
 
 <style scoped>
-.dashboard {
-  width: 95%;
-  margin: 0 auto;
-  padding: 20px;
+h2{
+  text-align: center;
+  margin-bottom: 20px;
 }
 .charts {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 24px;
+  background: white;
+  padding: 20px;
   width: 100%;
-  margin: 0 auto;
+  max-width: 1200px;
+  border-radius: 10px;
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: auto;
 }
 
 canvas {
   width: 100% !important;
-  max-width: 100%;
-  min-height: 260px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px #eee;
+  height: auto !important;
+  margin-top: 20px;
+  max-height: 400px;
 }
 
 @media (min-width: 768px) {
+  .charts {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 40px;
+  }
   canvas {
-    width: 80% !important;
-    max-width: 80%;
+    width: 48% !important;
+    max-width: 48%;
   }
 }
-
-
 </style>

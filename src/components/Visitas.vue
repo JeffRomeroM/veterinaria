@@ -53,6 +53,9 @@ const tiposVisita = [
 
 const tiposGanado = [
   'Bovino',
+  'Canino',
+  'Felino',
+  'Bovino',
   'Caprino',
   'Porcino',
   'Ovinos',
@@ -370,7 +373,10 @@ onMounted(async () => {
 
     <button class="btn-nuevo" @click="abrirModal()">Nueva Visita</button>
 
-    <p v-if="cargando">Cargando visitas...</p>
+    <div v-if="cargando" class="loader-container">
+      <div class="loader"></div>
+      <span class="loader-text">Cargando visitas...</span>
+    </div>
     <p v-if="error" class="error">{{ error }}</p>
 
     <div v-if="visitasFiltradas.length" class="cards-container">
@@ -566,6 +572,34 @@ onMounted(async () => {
   min-width: 150px;
   padding: 6px 10px;
   font-size: 14px;
+}
+
+
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px 0;
+}
+
+.loader {
+  border: 4px solid #e0e0e0;
+  border-top: 4px solid #10b981;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 10px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loader-text {
+  color: #10b981;
+  font-weight: bold;
+  font-size: 16px;
 }
 
 .btn-nuevo {

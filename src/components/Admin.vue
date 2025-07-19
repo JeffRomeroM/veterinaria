@@ -165,7 +165,6 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
-  background: #f9f9f9;
 }
 
 th, td {
@@ -242,7 +241,8 @@ button:last-of-type {
 @media screen and (max-width: 600px) {
   table, thead, tbody, th, td, tr {
     display: block;
-    width: 100%;
+    width: 98%;
+    margin: auto;
   }
 
   tr {
