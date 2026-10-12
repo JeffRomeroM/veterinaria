@@ -6,16 +6,18 @@ import Admin from '../components/Admin.vue'
 import Register from '../components/Register.vue'
 import Dashboard from '../components/Dashboard.vue'
 import Recordatorio from '../components/Recordatorio.vue'
+import CambiarOactualizar from '../components/CambiarOactualizar.vue'
 
 const routes = [
   { path: '/', component: Login },
   { path: '/registrarse', component: Register },
+  { path: '/actualizar', component: CambiarOactualizar },
   {
     path: '/visitas',
     component: Home,
     meta: { requiresAuth: true }
   },
-  {
+  { 
     path: '/admin',
     component: Admin,
     meta: { requiresAuth: true, requiresAdmin: true }
